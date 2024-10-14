@@ -138,6 +138,10 @@ public:
 				if (clients.size() < MAX_CLIENTS) {
 					std::cout << COLOR_RED << "Client Connected" << COLOR_RESET << std::endl;  // Use macro for red text
 					clients.push_back(client);
+
+					const char buffer[1024] = "Connection to server successful";
+					SDLNet_TCP_Send(client, buffer, strlen(buffer) + 1);
+
 					std::thread clientThread(&Network::handleClient, this, client, serverInput);
 					clientThreads.push_back(std::move(clientThread));
 				}
