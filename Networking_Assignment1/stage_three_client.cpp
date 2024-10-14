@@ -116,22 +116,32 @@ int main(int argc, char* argv[]) {
 
 	std::thread outputThread(receive_output, std::ref(client), std::ref(net_loop));
 	bool programLoop = true;
-
+	bool shouldRetry = true;
 	while (programLoop)
 	{
-		networkLoop(client, net_loop, username);
-		std::string input;
+		if (shouldRetry)
+		{
+			networkLoop(client, net_loop, username);
+		}
 
+		std::string input;
 		printf("Would you like to try to rejoin? (y/n)\n");
 		std::getline(std::cin, input);
 
 		if (strcmp(input.c_str(), "y") == 0)
 		{
+			shouldRetry = true;
 			continue;
 		}
 
-		programLoop = false;
+		if (strcmp(input.c_str(), "n") == 0)
+		{
+			programLoop = false;
+		}
+
+		shouldRetry = false;
 	}
+
 	cleanup(client);
 
 	outputThread.join();
