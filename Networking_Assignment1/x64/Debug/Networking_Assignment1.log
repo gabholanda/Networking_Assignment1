@@ -1,4 +1,1 @@
-﻿  Networking_Assignment1.cpp
-  Networking_Assignment1.vcxproj -> C:\Users\gabri\source\repos\Networking_Assignment1\x64\Debug\Networking_Assignment1.exe
-  'pwsh.exe' is not recognized as an internal or external command,
-  operable program or batch file.
+﻿LINK : fatal error LNK1168: cannot open C:\Users\gabri\source\repos\Networking_Assignment1\x64\Debug\Networking_Assignment1.exe for writing
