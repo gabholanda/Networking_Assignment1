@@ -5,7 +5,10 @@
 #include <iostream>
 #include <thread>
 #undef main
-
+#define COLOR_RESET "\033[0m"
+#define COLOR_GREEN "\033[32m"
+#define COLOR_PINK "\033[35m"
+#define COLOR_BLUE "\033[34m"
 TCPsocket init(const char* host, Uint16 port)
 {
     SDL_Init(SDL_INIT_EVERYTHING);
@@ -37,7 +40,7 @@ void networkLoop(TCPsocket& client, bool& clientLoop, const char* username)
 
     //bool clientLoop = true;
 
-    printf("\nEnter a message to send (or type 'quit' to exit): ");
+    std::cout << COLOR_BLUE << "\nEnter a message to send (or type 'quit' to exit): " << COLOR_RESET;
     while (clientLoop)
     {
         fflush(stdout);
@@ -58,7 +61,7 @@ void networkLoop(TCPsocket& client, bool& clientLoop, const char* username)
                 buffer[len - 1] = '\0';
             }
             */
-        std::cout << "\nEnter input (up to 1024 characters): ";
+        std::cout << COLOR_BLUE << "\nEnter input (up to 1024 characters): " << COLOR_RESET;
         std::getline(std::cin, input);
 
         // If the input length exceeds 1024 characters, truncate it
@@ -66,7 +69,7 @@ void networkLoop(TCPsocket& client, bool& clientLoop, const char* username)
             input = input.substr(0, 1024);  // Keep only the first 1024 characters
         }
 
-        std::string new_message = std::string(username) + " : " + input;
+        std::string new_message = std::string(COLOR_PINK) + username + COLOR_RESET + " : " + std::string(COLOR_BLUE) + input + COLOR_RESET;
 
 
         //std::cout << (new_message);
@@ -121,7 +124,7 @@ void receive_output(TCPsocket client, bool& net_loop)
             buffer[received - 1] = '\0';  // Null-terminate the received data
             if (strcmp(buffer, "exit") == 0)
             {
-                printf("SERVER WAnts to close\n");
+                std::cout << COLOR_GREEN << "SERVER Wants to close" << COLOR_RESET << std::endl;
                 net_loop = false;
                 SDLNet_TCP_Close(client);
                 exit(1);
@@ -129,7 +132,7 @@ void receive_output(TCPsocket client, bool& net_loop)
 
             }
             else
-                printf("\nSERVER: %s\n", buffer);
+                std::cout << COLOR_GREEN << "\nSERVER: " << buffer << COLOR_RESET << std::endl;
         }
     }
 }

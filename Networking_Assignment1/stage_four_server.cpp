@@ -7,10 +7,14 @@
 #include <mutex>
 #include <map>
 #include <chrono>
+#include <string>
 #undef main
 
-class Network {
+// ANSI escape codes for colors
+#define COLOR_RED "\033[31m"
+#define COLOR_RESET "\033[0m"
 
+class Network {
 private:
     std::mutex clientListMutex;
     std::list<TCPsocket> clients;
@@ -43,12 +47,13 @@ public:
         IPaddress* clientIP = SDLNet_TCP_GetPeerAddress(client);
         Uint32 host = SDLNet_Read32(&clientIP->host);
         Uint16 port = SDLNet_Read16(&clientIP->port);
-        printf("Client Connected: IP Address: %d.%d.%d.%d, Port: %d\n",
-            (host >> 24) & 0xFF,
-            (host >> 16) & 0xFF,
-            (host >> 8) & 0xFF,
-            host & 0xFF,
-            port);
+        std::string info = "Client Connected: IP Address: " +
+            std::to_string((host >> 24) & 0xFF) + "." +
+            std::to_string((host >> 16) & 0xFF) + "." +
+            std::to_string((host >> 8) & 0xFF) + "." +
+            std::to_string(host & 0xFF) + ", Port: " +
+            std::to_string(port);
+        std::cout << COLOR_RED << info << COLOR_RESET << std::endl;  // Use macro for red text
     }
 
     void handleClient(TCPsocket client, const char* serverMsg) {
@@ -76,7 +81,8 @@ public:
                 // Update the client's last message timestamp
                 clientMessageTimestamps[client] = now;
 
-                printf("Received: %s\n", buffer);
+                std::string receivedMsg = "Received: " + std::string(buffer);
+                std::cout << COLOR_RED << receivedMsg << COLOR_RESET << std::endl;  // Use macro for red text
                 printSocketInfo(client);
 
                 // Relaying received message
@@ -91,7 +97,7 @@ public:
 
                 // Check for the exit command
                 if (strcmp(buffer, "quit") == 0) {
-                    printf("Client requested to exit. Closing connection.\n");
+                    std::cout << COLOR_RED << "Client requested to exit. Closing connection." << COLOR_RESET << std::endl;  // Use macro for red text
                     break;
                 }
 
@@ -105,7 +111,7 @@ public:
                 }
             }
             else {
-                printf("Client Disconnected\n");
+                std::cout << COLOR_RED << "Client Disconnected" << COLOR_RESET << std::endl;  // Use macro for red text
                 break;
             }
         }
@@ -124,7 +130,7 @@ public:
             if (client) {
                 std::lock_guard<std::mutex> lock(clientListMutex);
                 if (clients.size() < MAX_CLIENTS) {
-                    printf("Client Connected\n");
+                    std::cout << COLOR_RED << "Client Connected" << COLOR_RESET << std::endl;  // Use macro for red text
                     clients.push_back(client);
                     std::thread clientThread(&Network::handleClient, this, client, serverInput);
                     clientThreads.push_back(std::move(clientThread));
@@ -133,7 +139,7 @@ public:
                     const char* fullMessage = "Server is full. Please wait for a free slot.";
                     SDLNet_TCP_Send(client, fullMessage, strlen(fullMessage) + 1);
                     SDLNet_TCP_Close(client);
-                    printf("Server full. Rejected connection.\n");
+                    std::cout << COLOR_RED << "Server full. Rejected connection." << COLOR_RESET << std::endl;  // Use macro for red text
                 }
             }
             else {
@@ -149,7 +155,7 @@ public:
 
     void serverInputFunction(bool& serverLoop, char* serverInput) {
         while (serverLoop) {
-            printf("Server's Main Thread\nType 'quit' to close the server and exit the program\n");
+            std::cout << COLOR_RED "Server's Main Thread\nType 'quit' to close the server and exit the program\n" COLOR_RESET;
             memset(serverInput, 0, sizeof(serverInput));
             if (fgets(serverInput, sizeof(serverInput), stdin) == NULL) {
                 break; // Exit the loop on EOF or error
@@ -158,15 +164,15 @@ public:
             if (len > 0 && serverInput[len - 1] == '\n') {
                 serverInput[len - 1] = '\0';
             }
-            if (strcmp(serverInput, "exit") == 0) {
-                printf("Server requested to exit. Closing connection.\n");
+            if (strcmp(serverInput, "quit") == 0) { // Changed from "exit" to "quit"
+                std::cout << COLOR_RED << "Server requested to exit. Closing connection." << COLOR_RESET << std::endl;  // Use macro for red text
                 serverLoop = false;
                 break; // Exit the loop if the user enters 'quit'
             }
         }
     }
-
 };
+
 int main(int argc, char* argv[]) {
     Network network;
     TCPsocket server = network.init(NULL, 8080);
