@@ -6,11 +6,13 @@
 #include <vector>
 #include <list>
 #include <mutex>
+#undef main
 
 #undef main
 
 std::mutex clientListMutex;
 std::list<TCPsocket> clients;
+const int MAX_CLIENTS = 4;
 
 TCPsocket init(const char* host, Uint16 port)
 {
@@ -108,32 +110,28 @@ void handleClient(TCPsocket client, char* serverMsg)
 	clients.remove(client);
 }
 
-void networkLoop(bool& serverLoop, TCPsocket server, std::vector<std::thread>& clientThreads, char* serverInput)
-//void networkLoop(bool serverLoop, TCPsocket server, std::vector<std::thread> &clientThreads, char *serverInput)
-{
-	while (serverLoop) {
-		TCPsocket client = SDLNet_TCP_Accept(server);
-		if (client) {
-			printf("Client Connected\n");
-
-			clients.push_back(client);
-			// Start a new thread to handle communication with the client
-			//std::thread clientThread(handleClient, client);
-			std::thread clientThread(handleClient, client, serverInput);
-			clientThreads.push_back(std::move(clientThread));
-		}
-		else {
-			//printf("Searching for connection\n");
-			auto currentTime = std::chrono::system_clock::now();
-
-			// Calculate a time point 5 seconds into the future
-			auto wakeUpTime = currentTime + std::chrono::seconds(1);
-
-			// Sleep until the specified time
-			std::this_thread::sleep_until(wakeUpTime);
-		}
-	}
-
+void networkLoop(bool& serverLoop, TCPsocket server, std::vector<std::thread>& clientThreads, char* serverInput) {
+    while (serverLoop) {
+        TCPsocket client = SDLNet_TCP_Accept(server);
+        if (client) {
+            std::lock_guard<std::mutex> lock(clientListMutex);
+            if (clients.size() < MAX_CLIENTS) {
+                printf("Client Connected\n");
+                clients.push_back(client);
+                std::thread clientThread(handleClient, client, serverInput);
+                clientThreads.push_back(std::move(clientThread));
+            }
+            else {
+                const char* fullMessage = "Server is full. Please wait for a free slot.";
+                SDLNet_TCP_Send(client, fullMessage, strlen(fullMessage) + 1);
+                SDLNet_TCP_Close(client);
+                printf("Server full. Rejected connection.\n");
+            }
+        }
+        else {
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        }
+    }
 }
 
 
@@ -189,5 +187,4 @@ int main(int argc, char* argv[]) {
 
 	cleanup(server);
 	return 0;
-}
 
