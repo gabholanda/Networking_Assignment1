@@ -6,9 +6,11 @@
 #include <vector>
 #include <list>
 #include <mutex>
-#undef main
+#include <map>
+#include <chrono>
 
 #undef main
+std::map<TCPsocket, std::chrono::steady_clock::time_point> clientMessageTimestamps;
 
 std::mutex clientListMutex;
 std::list<TCPsocket> clients;
@@ -54,6 +56,7 @@ void handleClient(TCPsocket client, char* serverMsg)
 //void handleClient(TCPsocket client)
 {
 	char buffer[1024];
+	const int delayInSeconds = 5; // Set the message delay to 5 seconds
 	//const char* response = "Server received your message.";
 
 	while (true) {
@@ -62,6 +65,23 @@ void handleClient(TCPsocket client, char* serverMsg)
 			int received = SDLNet_TCP_Recv(client, buffer, sizeof(buffer));
 			if (received > 0) {
 				buffer[received - 1] = '\0';  // Null-terminate the received data
+
+				auto now = std::chrono::steady_clock::now();
+
+				// Check if the client is allowed to send another message
+				auto it = clientMessageTimestamps.find(client);
+				if (it != clientMessageTimestamps.end()) {
+					// Check how much time has passed since the last message
+					auto timeSinceLastMessage = std::chrono::duration_cast<std::chrono::seconds>(now - it->second).count();
+					if (timeSinceLastMessage < delayInSeconds) {
+						const char* rateLimitMessage = "You're sending messages too quickly. Please wait before sending another message.";
+						SDLNet_TCP_Send(client, rateLimitMessage, strlen(rateLimitMessage) + 1);
+						continue; // Skip further processing
+					}
+				}
+
+				// Update the client's last message timestamp
+				clientMessageTimestamps[client] = now;
 				printf("Received: %s\n", buffer);
 				printSocketInfo(client);
 
@@ -108,6 +128,7 @@ void handleClient(TCPsocket client, char* serverMsg)
 	// It will call unlock automatically at the destructor of lock_guard
 	std::lock_guard<std::mutex> lock(clientListMutex);
 	clients.remove(client);
+	clientMessageTimestamps.erase(client);
 }
 
 void networkLoop(bool& serverLoop, TCPsocket server, std::vector<std::thread>& clientThreads, char* serverInput) {
