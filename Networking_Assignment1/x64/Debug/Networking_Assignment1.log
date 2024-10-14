@@ -1,4 +1,8 @@
-﻿  Networking_Assignment1.cpp
-  Networking_Assignment1.vcxproj -> C:\Users\gabri\source\repos\Networking_Assignment1\x64\Debug\Networking_Assignment1.exe
+﻿  stage_four_server.cpp
+  stage_three_client.cpp
+C:\kitto\College\ComputerNetworking\Networking_Assignment1\Networking_Assignment1\stage_three_client.cpp(77,83): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\kitto\College\ComputerNetworking\Networking_Assignment1\Networking_Assignment1\stage_three_client.cpp(32,10): warning C4101: 'buffer': unreferenced local variable
+  Generating Code...
+  Networking_Assignment1.vcxproj -> C:\kitto\College\ComputerNetworking\Networking_Assignment1\x64\Debug\Networking_Assignment1.exe
   'pwsh.exe' is not recognized as an internal or external command,
   operable program or batch file.

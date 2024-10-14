@@ -4,6 +4,7 @@
 #include <string>
 #include <iostream>
 #include <thread>
+#undef main
 
 TCPsocket init(const char* host, Uint16 port)
 {
@@ -18,7 +19,7 @@ TCPsocket init(const char* host, Uint16 port)
     return client;
 }
 
-void cleanup(TCPsocket &server)
+void cleanup(TCPsocket& server)
 {
     SDLNet_TCP_Close(server);
     SDLNet_Quit();
@@ -37,7 +38,7 @@ void networkLoop(TCPsocket& client, bool& clientLoop, const char* username)
     //bool clientLoop = true;
 
     printf("\nEnter a message to send (or type 'quit' to exit): ");
-    while(clientLoop)
+    while (clientLoop)
     {
         fflush(stdout);
 
@@ -57,30 +58,30 @@ void networkLoop(TCPsocket& client, bool& clientLoop, const char* username)
                 buffer[len - 1] = '\0';
             }
             */
-            std::cout << "\nEnter input (up to 1024 characters): ";
-            std::getline(std::cin, input);
+        std::cout << "\nEnter input (up to 1024 characters): ";
+        std::getline(std::cin, input);
 
-            // If the input length exceeds 1024 characters, truncate it
-            if (input.length() > 1024) {
-                input = input.substr(0, 1024);  // Keep only the first 1024 characters
-            }
+        // If the input length exceeds 1024 characters, truncate it
+        if (input.length() > 1024) {
+            input = input.substr(0, 1024);  // Keep only the first 1024 characters
+        }
 
-            std::string new_message = std::string(username) + " : " + input;
-
-                
-            //std::cout << (new_message);
+        std::string new_message = std::string(username) + " : " + input;
 
 
+        //std::cout << (new_message);
 
-            //SDLNet_TCP_Send(client, buffer, sizeof(buffer));
-            if(client)
-                SDLNet_TCP_Send(client, new_message.c_str(), new_message.length() + 1);
-            //SDLNet_TCP_Send(client, input.c_str(), input.length() + 1);
-            
-            if (strcmp(input.c_str(), "quit") == 0) {
-                exit(1);
-                break;  // Exit the loop if the user enters 'quit'
-            }
+
+
+        //SDLNet_TCP_Send(client, buffer, sizeof(buffer));
+        if (client)
+            SDLNet_TCP_Send(client, new_message.c_str(), new_message.length() + 1);
+        //SDLNet_TCP_Send(client, input.c_str(), input.length() + 1);
+
+        if (strcmp(input.c_str(), "quit") == 0) {
+            exit(1);
+            break;  // Exit the loop if the user enters 'quit'
+        }
         //END SEND Data
         //####################################################################
         //####################################################################
@@ -93,7 +94,7 @@ void networkLoop(TCPsocket& client, bool& clientLoop, const char* username)
         if (received > 0) {
 
             buffer[received - 1] = '\0';  // Null-terminate the received data
-		    if(strcmp(buffer, "exit") == 0)
+            if(strcmp(buffer, "exit") == 0)
             {
                 printf("SERVER WAnts to close\n");
                 break;  // Exit the loop if the user enters 'quit'
@@ -108,17 +109,17 @@ void networkLoop(TCPsocket& client, bool& clientLoop, const char* username)
     }
 }
 
-void receive_output(TCPsocket client, bool &net_loop)
+void receive_output(TCPsocket client, bool& net_loop)
 {
     //if(client)
-    while(client)
+    while (client)
     {
         char buffer[1024];
         int received = SDLNet_TCP_Recv(client, buffer, sizeof(buffer));
         if (received > 0) {
 
             buffer[received - 1] = '\0';  // Null-terminate the received data
-            if(strcmp(buffer, "exit") == 0)
+            if (strcmp(buffer, "exit") == 0)
             {
                 printf("SERVER WAnts to close\n");
                 net_loop = false;
@@ -142,13 +143,13 @@ int main(int argc, char* argv[]) {
     bool net_loop = true;
     const char* username;
 
-    if(argc >= 2)
+    if (argc >= 2)
     {
         printf("Argument Value %s\n", argv[1]);
         username = argv[2];
         client = init(argv[1], 8080);
     }
-    else 
+    else
     {
         printf("Default\n");
         printf("Argument Value %s\n", argv[0]);
@@ -160,8 +161,8 @@ int main(int argc, char* argv[]) {
 
     networkLoop(client, net_loop, username);
     cleanup(client);
-    
+
     outputThread.join();
 
-return 0;
+    return 0;
 }

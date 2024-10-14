@@ -1,0 +1,75 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\kitto\\College\\ComputerNetworking\\Networking_Assignment1\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{106B40D7-E140-477B-B768-65ECEB44DE6C}|Networking_Assignment1\\Networking_Assignment1.vcxproj|C:\\kitto\\College\\ComputerNetworking\\Networking_Assignment1\\Networking_Assignment1\\Networking_Assignment1.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{106B40D7-E140-477B-B768-65ECEB44DE6C}|Networking_Assignment1\\Networking_Assignment1.vcxproj|solutionrelative:Networking_Assignment1\\Networking_Assignment1.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{106B40D7-E140-477B-B768-65ECEB44DE6C}|Networking_Assignment1\\Networking_Assignment1.vcxproj|C:\\kitto\\College\\ComputerNetworking\\Networking_Assignment1\\Networking_Assignment1\\stage_three_client.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{106B40D7-E140-477B-B768-65ECEB44DE6C}|Networking_Assignment1\\Networking_Assignment1.vcxproj|solutionrelative:Networking_Assignment1\\stage_three_client.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{106B40D7-E140-477B-B768-65ECEB44DE6C}|Networking_Assignment1\\Networking_Assignment1.vcxproj|C:\\kitto\\College\\ComputerNetworking\\Networking_Assignment1\\Networking_Assignment1\\stage_four_server.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{106B40D7-E140-477B-B768-65ECEB44DE6C}|Networking_Assignment1\\Networking_Assignment1.vcxproj|solutionrelative:Networking_Assignment1\\stage_four_server.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "stage_four_server.cpp",
+              "DocumentMoniker": "C:\\kitto\\College\\ComputerNetworking\\Networking_Assignment1\\Networking_Assignment1\\stage_four_server.cpp",
+              "RelativeDocumentMoniker": "Networking_Assignment1\\stage_four_server.cpp",
+              "ToolTip": "C:\\kitto\\College\\ComputerNetworking\\Networking_Assignment1\\Networking_Assignment1\\stage_four_server.cpp",
+              "RelativeToolTip": "Networking_Assignment1\\stage_four_server.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAKIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-10-14T02:29:03.929Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "stage_three_client.cpp",
+              "DocumentMoniker": "C:\\kitto\\College\\ComputerNetworking\\Networking_Assignment1\\Networking_Assignment1\\stage_three_client.cpp",
+              "RelativeDocumentMoniker": "Networking_Assignment1\\stage_three_client.cpp",
+              "ToolTip": "C:\\kitto\\College\\ComputerNetworking\\Networking_Assignment1\\Networking_Assignment1\\stage_three_client.cpp",
+              "RelativeToolTip": "Networking_Assignment1\\stage_three_client.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAC0AAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-10-14T02:28:22.724Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Networking_Assignment1.cpp",
+              "DocumentMoniker": "C:\\kitto\\College\\ComputerNetworking\\Networking_Assignment1\\Networking_Assignment1\\Networking_Assignment1.cpp",
+              "RelativeDocumentMoniker": "Networking_Assignment1\\Networking_Assignment1.cpp",
+              "ToolTip": "C:\\kitto\\College\\ComputerNetworking\\Networking_Assignment1\\Networking_Assignment1\\Networking_Assignment1.cpp",
+              "RelativeToolTip": "Networking_Assignment1\\Networking_Assignment1.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-10-14T02:28:06.516Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
